@@ -39,3 +39,9 @@ display(races_selected)
 
 races_selected.write.mode("overwrite").parquet("abfss://processed@f1datal.dfs.core.windows.net/races")
 display(dbutils.fs.ls("abfss://processed@f1datal.dfs.core.windows.net/races"))
+
+# COMMAND ----------
+
+races_df = spark.read.parquet("abfss://processed@f1datal.dfs.core.windows.net/races")
+
+display(races_df)
