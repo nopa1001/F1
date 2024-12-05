@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run "../F1/INC/Configuration"
+
+# COMMAND ----------
+
 dbutils.secrets.get("f1-scope", "f1datalkey")
 f1datal_account_key = dbutils.secrets.get("f1-scope", "f1datalkey")
 spark.conf.set(
@@ -24,19 +28,24 @@ circutis_schema = StructType([StructField("circuitId", IntegerType(), True),
 
 # COMMAND ----------
 
+raw_folder_path
+processed_folder_path
 
-circuits_df = spark.read.option("header", True).schema(circuts_schema).csv('abfss://raw@f1datal.dfs.core.windows.net/circuits.csv')
+# COMMAND ----------
+
+
+circuits_df = spark.read.option("header", True).schema(circutis_schema).csv(f"{raw_folder_path}/circuits.csv")
 display(circuits_df)
 
 # COMMAND ----------
 
 from pyspark.sql.functions import col
 circuits_df_selected = circuits_df.select(col('circuitId'), col('name'), col('location'), col('country'), col('lat'), col('lng'), col('alt'))
-display(circuts_df_selected)
+display(circuits_df_selected)
 
 # COMMAND ----------
 
-circuits_renamed_df = circuts_df_selected.withColumnRenamed("circuitId", "circuit_id") \
+circuits_renamed_df = circuits_df_selected.withColumnRenamed("circuitId", "circuit_id") \
 .withColumnRenamed("circuitRef", "circuit_ref") \
 .withColumnRenamed("lat", "latitude") \
 .withColumnRenamed("lng", "longitude") \
@@ -52,7 +61,7 @@ display(circuits_final_df)
 
 # COMMAND ----------
 
-circuits_final_df.write.mode("overwrite").parquet("abfss://processed@f1datal.dfs.core.windows.net/circuits")
+circuits_final_df.write.mode("overwrite").parquet(f"{processed_folder_path}/circuits")
 
 # COMMAND ----------
 
