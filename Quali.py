@@ -40,5 +40,9 @@ final_df = qualifying_df.withColumnRenamed("qualifyId", "qualify_id") \
 
 # COMMAND ----------
 
+display(final_df)
+
+# COMMAND ----------
+
 final_df.write.mode("overwrite").parquet("abfss://processed@f1datal.dfs.core.windows.net/quali")
 display(dbutils.fs.ls("abfss://processed@f1datal.dfs.core.windows.net/quali"))

@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %run "../F1/INC/Configuration"
+# MAGIC %run "/Workspace/Users/pawel.nowak98@outlook.com/F1/INC/Configuration"
 
 # COMMAND ----------
 
